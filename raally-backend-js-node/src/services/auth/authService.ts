@@ -15,7 +15,6 @@ import moment from 'moment';
 const BCRYPT_SALT_ROUNDS = 12;
 
 class AuthService {
-
   static async signup(
     email,
     password,
@@ -23,14 +22,14 @@ class AuthService {
     tenantId,
     options: any = {},
   ) {
-    
-    const transaction = await SequelizeRepository.createTransaction(
-      options.database,
-    );
-      
+    const transaction =
+      await SequelizeRepository.createTransaction(
+        options.database,
+      );
+
     try {
       email = email.toLowerCase();
-      
+
       const existingUser = await UserRepository.findByEmail(
         email,
         options,
@@ -46,10 +45,11 @@ class AuthService {
       if (existingUser) {
         // If the user already have an password,
         // it means that it has already signed up
-        const existingPassword = await UserRepository.findPassword(
-          existingUser.id,
-          options,
-        );
+        const existingPassword =
+          await UserRepository.findPassword(
+            existingUser.id,
+            options,
+          );
 
         if (existingPassword) {
           throw new Error400(
@@ -209,9 +209,11 @@ class AuthService {
     tenantId,
     options: any = {},
   ) {
-    const transaction = await SequelizeRepository.createTransaction(
-      options.database,
-    );
+    debugger;
+    const transaction =
+      await SequelizeRepository.createTransaction(
+        options.database,
+      );
 
     try {
       email = email.toLowerCase();
@@ -227,10 +229,8 @@ class AuthService {
         );
       }
 
-      const currentPassword = await UserRepository.findPassword(
-        user.id,
-        options,
-      );
+      const currentPassword =
+        await UserRepository.findPassword(user.id, options);
 
       if (!currentPassword) {
         throw new Error400(
@@ -413,19 +413,19 @@ class AuthService {
     let link;
     try {
       let tenant;
-      
+
       if (tenantId) {
-        tenant = await TenantRepository.findById(
-          tenantId,
-          { ...options },
-        );
+        tenant = await TenantRepository.findById(tenantId, {
+          ...options,
+        });
       }
 
       email = email.toLowerCase();
-      const token = await UserRepository.generateEmailVerificationToken(
-        email,
-        options,
-      );
+      const token =
+        await UserRepository.generateEmailVerificationToken(
+          email,
+          options,
+        );
       link = `${tenantSubdomain.frontendUrl(
         tenant,
       )}/auth/verify-email?token=${token}`;
@@ -457,19 +457,19 @@ class AuthService {
 
     try {
       let tenant;
-      
+
       if (tenantId) {
-        tenant = await TenantRepository.findById(
-          tenantId,
-          { ...options },
-        );
+        tenant = await TenantRepository.findById(tenantId, {
+          ...options,
+        });
       }
 
       email = email.toLowerCase();
-      const token = await UserRepository.generatePasswordResetToken(
-        email,
-        options,
-      );
+      const token =
+        await UserRepository.generatePasswordResetToken(
+          email,
+          options,
+        );
 
       link = `${tenantSubdomain.frontendUrl(
         tenant,
@@ -491,10 +491,11 @@ class AuthService {
   static async verifyEmail(token, options) {
     const currentUser = options.currentUser;
 
-    const user = await UserRepository.findByEmailVerificationToken(
-      token,
-      options,
-    );
+    const user =
+      await UserRepository.findByEmailVerificationToken(
+        token,
+        options,
+      );
 
     if (!user) {
       throw new Error400(
@@ -527,10 +528,11 @@ class AuthService {
     password,
     options: any = {},
   ) {
-    const user = await UserRepository.findByPasswordResetToken(
-      token,
-      options,
-    );
+    const user =
+      await UserRepository.findByPasswordResetToken(
+        token,
+        options,
+      );
 
     if (!user) {
       throw new Error400(
@@ -558,10 +560,11 @@ class AuthService {
     options,
   ) {
     const currentUser = options.currentUser;
-    const currentPassword = await UserRepository.findPassword(
-      options.currentUser.id,
-      options,
-    );
+    const currentPassword =
+      await UserRepository.findPassword(
+        options.currentUser.id,
+        options,
+      );
 
     const passwordsMatch = await bcrypt.compare(
       oldPassword,
@@ -601,9 +604,10 @@ class AuthService {
       throw new Error('auth-no-email');
     }
 
-    const transaction = await SequelizeRepository.createTransaction(
-      options.database,
-    );
+    const transaction =
+      await SequelizeRepository.createTransaction(
+        options.database,
+      );
 
     try {
       email = email.toLowerCase();

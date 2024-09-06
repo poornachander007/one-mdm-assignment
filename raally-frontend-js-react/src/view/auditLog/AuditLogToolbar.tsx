@@ -38,7 +38,7 @@ function AuditLogToolbar(props) {
             loading={exportLoading}
             iconClass="far fa-file-excel"
           />{' '}
-          {i18n('common.export')}
+          {i18n('common.exportExcel')}
         </button>
       </span>
       <ReactTooltip id="audit-log-toolbar-export-tooltip" />

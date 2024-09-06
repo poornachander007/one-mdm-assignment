@@ -10,7 +10,7 @@ import InputFormItem from 'src/view/shared/form/items/InputFormItem';
 import FormWrapper from 'src/view/shared/styles/FormWrapper';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-
+import { useNavigate } from 'react-router-dom';
 const schema = yup.object().shape({
   oldPassword: yupFormSchemas.string(
     i18n('user.fields.oldPassword'),
@@ -35,6 +35,7 @@ const schema = yup.object().shape({
 });
 
 function PasswordChangeFormPage(props) {
+  //const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [initialValues] = useState(() => ({
@@ -67,7 +68,10 @@ function PasswordChangeFormPage(props) {
       form.setValue(key, initialValues[key]);
     });
   };
-
+  const onCancel = () => {
+    //navigate('/');
+    window.location.href = '/';
+  };
   return (
     <FormWrapper>
       <FormProvider {...form}>
@@ -129,7 +133,7 @@ function PasswordChangeFormPage(props) {
             {props.onCancel ? (
               <button
                 disabled={saveLoading}
-                onClick={() => props.onCancel()}
+                onClick={onCancel}
                 className="btn btn-light"
                 type="button"
               >

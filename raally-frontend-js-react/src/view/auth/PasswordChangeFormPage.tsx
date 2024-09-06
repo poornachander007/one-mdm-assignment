@@ -3,8 +3,8 @@ import PasswordChangeForm from 'src/view/auth/PasswordChangeForm';
 import ContentWrapper from 'src/view/layout/styles/ContentWrapper';
 import Breadcrumb from 'src/view/shared/Breadcrumb';
 import PageTitle from 'src/view/shared/styles/PageTitle';
-
-function PasswordChangeFormPage(props) {
+import React, { useState } from 'react';
+const PasswordChangeFormPage = (props) => {
   return (
     <>
       <Breadcrumb
@@ -19,12 +19,10 @@ function PasswordChangeFormPage(props) {
           {i18n('auth.passwordChange.title')}
         </PageTitle>
 
-        <PasswordChangeForm
-          onCancel={() => {}}
-        />
+        <PasswordChangeForm onCancel={() => {}} />
       </ContentWrapper>
     </>
   );
-}
+};
 
 export default PasswordChangeFormPage;

@@ -77,7 +77,7 @@ function AssignmentToolbar(props) {
           loading={exportLoading}
           iconClass="far fa-file-excel"
         />{' '}
-        {i18n('common.export')}
+        {i18n('common.exportExcel')}
       </button>
     );
 
